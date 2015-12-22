@@ -1,15 +1,15 @@
 # archive
 An archive app based on CDH
 
-clone code repository:
+**clone code repository**
 
-    git clone https://github.com/yeleid/simplemorphline
+    git clone https://github.com/yeleid/archive
 
-compile and package:
+**compile and package**
 
     mvn clean package
     
-run archive service:
+**run archive service**
 
     bin/archive.sh
     
