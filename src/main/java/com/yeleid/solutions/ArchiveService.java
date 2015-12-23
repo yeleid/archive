@@ -1,26 +1,19 @@
 package com.yeleid.solutions;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.Map;
 import java.util.UUID;
-import javax.rmi.CORBA.Util;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-import com.google.common.io.ByteStreams;
-import org.apache.commons.io.IOUtils;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
 
 import org.apache.log4j.Logger;
 
 @Path("/archive")
-@Produces("application/json")
+@Produces(MediaType.APPLICATION_JSON)
 public class ArchiveService {
     private static final Logger logger = Logger.getLogger(ArchiveService.class.getName());
 
@@ -31,26 +24,51 @@ public class ArchiveService {
     }
 
     @POST
-    @Path("/nosql/data/put")
-    public String noSqlPut(MultipartBody body) throws IOException {
+    @Path("/nosql/data/put/{id}")
+    public String noSqlDataPut(@PathParam("id") String id, MultipartBody body) throws IOException {
 
         byte[] data = null;
         String filename = null;
-        String id = UUID.randomUUID().toString();
+        if (Constants.PLACEHOLDER_NEW_FILE.equals(id))
+            id = UUID.randomUUID().toString();
 
         for (Attachment attachment : body.getAllAttachments()) {
             if (Constants.FIELD_DATA.equalsIgnoreCase(attachment.getContentDisposition().getParameter(Constants.MULTIPART_FIELD_NAME))) {
                 filename = attachment.getContentDisposition().getParameter(Constants.MULTIPART_FIELD_FILENAME);
-                data = Utils.getStream(attachment.getDataHandler().getInputStream());
-            }
-            else if (Constants.FIELD_ID.equalsIgnoreCase(attachment.getContentDisposition().getParameter(Constants.MULTIPART_FIELD_NAME))) {
-                id = new String(Utils.getStream(attachment.getDataHandler().getInputStream()));
+                data = Utils.getBytes(attachment.getDataHandler().getInputStream());
             }
         }
 
         logger.info("Archive file id  : " + id);
         logger.info("Archive file name: " + filename);
 
+        if (!Utils.noSqlPutData(id, data)) {
+            logger.error("Failed to store data [" + id + "]");
+        }
+
         return id;
+    }
+
+    @GET
+    @Path("/nosql/data/get/{id}")
+    public Response noSqlDataGet(@PathParam("id") String id) throws IOException {
+        byte[] data = Utils.noSqlGetData(id);
+        return Response.ok(Utils.getStream(data), MediaType.APPLICATION_OCTET_STREAM)
+                .header("Content-Disposition", "attachment; filename=\"" + id + "\"" )
+                .build();
+    }
+
+    @POST
+    @Path("/nosql/meta/put/{id}")
+    public boolean noSqlMetaPut(@PathParam("id") String id, Model model) throws IOException {
+        Map<String, byte[]> map = model.toMap();
+        return Utils.noSqlPutMeta(id, map);
+    }
+
+    @GET
+    @Path("/nosql/meta/get/{id}")
+    public Model noSqlMetaGet(@PathParam("id") String id) throws IOException {
+        Map<String, byte[]> map = Utils.noSqlGetMeta(id);
+        return Model.fromMap(map);
     }
 }
