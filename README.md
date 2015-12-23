@@ -7,8 +7,8 @@ An archive app based on CDH
 
 To take advantage of MOB, you have to use HFile version 3 (The MOB feature is transparent to the client).
 
-*HBase Service Advanced Configuration Snippet (Safety Valve)*
 ```xml
+HBase Service Advanced Configuration Snippet (Safety Valve)
 <property>
   <name>hfile.format.version</name>
   <value>3</value>
