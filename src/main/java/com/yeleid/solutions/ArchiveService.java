@@ -42,7 +42,7 @@ public class ArchiveService {
         logger.info("Archive file id  : " + id);
         logger.info("Archive file name: " + filename);
 
-        if (!Utils.noSqlPutData(id, data)) {
+        if (!NoSqlEngine.noSqlPutData(id, data)) {
             logger.error("Failed to store data [" + id + "]");
         }
 
@@ -52,7 +52,7 @@ public class ArchiveService {
     @GET
     @Path("/nosql/data/get/{id}")
     public Response noSqlDataGet(@PathParam("id") String id) throws IOException {
-        byte[] data = Utils.noSqlGetData(id);
+        byte[] data = NoSqlEngine.noSqlGetData(id);
         return Response.ok(Utils.getStream(data), MediaType.APPLICATION_OCTET_STREAM)
                 .header("Content-Disposition", "attachment; filename=\"" + id + "\"" )
                 .build();
@@ -62,13 +62,13 @@ public class ArchiveService {
     @Path("/nosql/meta/put/{id}")
     public boolean noSqlMetaPut(@PathParam("id") String id, Model model) throws IOException {
         Map<String, byte[]> map = model.toMap();
-        return Utils.noSqlPutMeta(id, map);
+        return NoSqlEngine.noSqlPutMeta(id, map);
     }
 
     @GET
     @Path("/nosql/meta/get/{id}")
     public Model noSqlMetaGet(@PathParam("id") String id) throws IOException {
-        Map<String, byte[]> map = Utils.noSqlGetMeta(id);
+        Map<String, byte[]> map = NoSqlEngine.noSqlGetMeta(id);
         return Model.fromMap(map);
     }
 }

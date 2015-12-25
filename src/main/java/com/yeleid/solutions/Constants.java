@@ -6,8 +6,10 @@ public class Constants {
     final static String HBASE_DATA_COLUMN = "hbase_data_column";
     final static String HBASE_META_FAMILY = "hbase_meta_family";
 
+    final static String SOLR_COLLECTION = "solr_collection";
+    final static String SOLR_SERVERS="solr_servers";
+
     final static String FIELD_DATA = "data";
-    final static String FIELD_ID = "id";
 
     final static String MULTIPART_FIELD_NAME = "name";
     final static String MULTIPART_FIELD_FILENAME = "filename";
