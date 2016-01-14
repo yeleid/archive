@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
-IP="127.0.0.1"
-# IP="172.31.13.75"
+IP="172.31.10.199"
 PORT="11300"
 ID="123"
+DIR="/tmp/staging"
 
-curl -v -O http://$IP:$PORT/archive/nosql/data/get/$ID
+rm -rf $DIR
+mkdir -p $DIR
+cd $DIR && curl -v -O http://$IP:$PORT/archive/nosql/data/get/$ID
 echo
+

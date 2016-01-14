@@ -1,8 +1,8 @@
 package com.yeleid.solutions;
 
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.lang.StringUtils;
 import org.apache.cxf.helpers.IOUtils;
-import org.apache.hadoop.util.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -57,7 +57,7 @@ public class SearchEngine {
         {
             String param = Utils.get(Constants.SOLR_SERVERS, "127.0.0.1:8983");
             servers = Arrays.asList(param.split(","));
-            logger.info("Search servers: " + StringUtils.join(", ", servers));
+            logger.info("Search servers: " + StringUtils.join(servers, ", "));
             if (servers.size() <= 0) {
                 logger.error("Failed to locate search server.");
                 System.exit(1);

@@ -51,9 +51,9 @@
 
         <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
 
-        <field name="f" type="string" indexed="true" stored="true" multiValued="true" />
-        <field name="c" type="string" indexed="true" stored="true" omitNorms="true"/>
-        <field name="a" type="string" indexed="true" stored="true"/>
+        <field name="f" type="string" indexed="true" stored="true" />
+        <field name="c" type="string" indexed="true" stored="true" />
+        <field name="a" type="string" indexed="true" stored="true" />
 
         <field name="_version_" type="long" indexed="true" stored="true"/>
 

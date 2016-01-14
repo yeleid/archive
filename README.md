@@ -33,14 +33,18 @@ HBase Service Advanced Configuration Snippet (Safety Valve)
     
 #### 3. References
 
-**solrctrl reference**
+*solrctrl reference*
 
     http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/search_solrctl_ref.html
     
-**extractHBaseCells Morphline command**
+*extractHBaseCells Morphline command*
     
     http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/search_hbase_batch_indexer.html
     
-**using Lily HBase NRT Indexer service**
+*using Lily HBase NRT Indexer service*
 
     http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/search_use_hbase_indexer_service.html
+    
+*indexer configuration*
+
+    https://github.com/NGDATA/hbase-indexer/wiki/Indexer-configuration
