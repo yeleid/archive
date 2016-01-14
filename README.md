@@ -17,6 +17,14 @@ HBase Service Advanced Configuration Snippet (Safety Valve)
 
 ![hbase_replication](docs/img/hbase-replication.png)
 
+**deploy key-value store indexer and configure mophlines**
+
+![lily-indexer](docs/img/lily-indexer.png)
+
+![morphline](docs/img/morphline.png)
+
+For more details, go see bin/solr/morphline.conf.
+
 #### 2. Archive System Setup
 
 **clone code repository**
@@ -27,11 +35,53 @@ HBase Service Advanced Configuration Snippet (Safety Valve)
 
     mvn clean package
     
+**setup environment**
+
+This step includes hbase table creation, solr collection creation and lily indexer registration.
+
+    bin/setup.sh
+    
 **run archive service**
 
     bin/archive.sh
     
-#### 3. References
+    then you should be able to see the log as follows:
+    16/01/14 04:20:10 INFO solutions.ArchiveServer: Start Archive Server.
+    
+    
+#### 3. Demonstration
+
+**check the service is running**
+
+    bin/info.sh
+    
+    then you should be able to see the log as follows:
+    Archive System 0.4 @yeleid
+    
+**upload a file (< 10MB) that to be archived**
+
+    bin/upload.sh
+    
+    by default, this file will be associated with id '123'. if you change ID="123" to ID="new" in script bin/upload.sh, archive service will return an uuid for this new file.
+    
+**update metadata for an archived file**
+
+    bin/update.sh
+    
+**query metadata given file id**
+
+    bin/retrieve.sh
+    
+    then you should be able to see the log like below:
+    {"category":null,"author":"alex","filename":"test.txt"}
+    
+**download the archived file given file id**
+
+    bin/download.sh
+    
+    by default, the downloaded file will be put into directory '/tmp/staging/'.
+    
+#### 4. References
 
 *solrctrl reference*
 
@@ -48,3 +98,5 @@ HBase Service Advanced Configuration Snippet (Safety Valve)
 *indexer configuration*
 
     https://github.com/NGDATA/hbase-indexer/wiki/Indexer-configuration
+    
+    
