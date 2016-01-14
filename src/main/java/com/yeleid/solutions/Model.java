@@ -36,15 +36,15 @@ public class Model {
         Model model = new Model();
         byte[] bytes;
 
-        bytes = map.get("filename");
+        bytes = map.get("f");
         if (bytes != null) {
             model.setFilename(Bytes.toString(bytes));
         }
-        bytes = map.get("category");
+        bytes = map.get("c");
         if (bytes != null) {
             model.setCategory(Bytes.toString(bytes));
         }
-        bytes = map.get("author");
+        bytes = map.get("a");
         if (bytes != null) {
             model.setAuthor(Bytes.toString(bytes));
         }
@@ -56,13 +56,13 @@ public class Model {
         Map<String, byte[]> map = new HashMap<String, byte[]>();
 
         if (filename != null) {
-            map.put("filename", Bytes.toBytes(filename));
+            map.put("f", Bytes.toBytes(filename));
         }
         if (category != null) {
-            map.put("category", Bytes.toBytes(category));
+            map.put("c", Bytes.toBytes(category));
         }
         if (author != null) {
-            map.put("author", Bytes.toBytes(author));
+            map.put("a", Bytes.toBytes(author));
         }
 
         return map;
