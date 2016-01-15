@@ -8,10 +8,13 @@ Many customers have millions of small files, e.g. customer service audio recordi
 * retrieval, based on metadata search and/or full-text search
 
 After deploying Hadoop, specifically **Cloudera distribution of Hadoop (EDH)**, customers want to ingest different data sources into one central data hub (a.k.a [Data lake](https://en.wikipedia.org/wiki/Data_lake)) for further analysis. 
+
 One solution would be storing small files directly in HDFS, but that's not efficient, and HDFS does not support miscellaneous indexing feature neither. 
 Further more, we also want to decouple clients (web UI or mobile app) from Hadoop, so the design would look like below:
 
 ![archive_design](docs/img/archive-design.png)
+
+In this new solution, we apply **HBase** to store file content and metadata, in the meantime, **Lily indexer** will capture any metadata changes automatically in HBase and re-index them in **Cloudera search** (powered by Solr). In the middle there is a web service decoupling end users from CDH, in this case we leverage [ **CXF-JAXRS** ](http://cxf.apache.org/docs/jax-rs.html).
 
 #### 2. Prerequisites
 
