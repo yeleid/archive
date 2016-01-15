@@ -7,6 +7,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.yeleid.solutions.model.Meta;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
 
@@ -60,15 +61,24 @@ public class ArchiveService {
 
     @POST
     @Path("/nosql/meta/put/{id}")
-    public boolean noSqlMetaPut(@PathParam("id") String id, Model model) throws IOException {
-        Map<String, byte[]> map = model.toMap();
+    public boolean noSqlMetaPut(@PathParam("id") String id, Meta meta) throws IOException {
+        Map<String, byte[]> map = meta.toMap();
         return NoSqlEngine.noSqlPutMeta(id, map);
     }
 
     @GET
     @Path("/nosql/meta/get/{id}")
-    public Model noSqlMetaGet(@PathParam("id") String id) throws IOException {
+    public Meta noSqlMetaGet(@PathParam("id") String id) throws IOException {
         Map<String, byte[]> map = NoSqlEngine.noSqlGetMeta(id);
-        return Model.fromMap(map);
+        return Meta.fromMap(map);
+    }
+
+    @POST
+    @Path("/search")
+    public SearchEngine.Response search(String query) throws IOException {
+        SearchEngine.Request request = new SearchEngine.RequestBuilder()
+                .setQuery(query)
+                .build();
+        return SearchEngine.search(request);
     }
 }

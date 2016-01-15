@@ -17,6 +17,7 @@ import java.util.List;
 
 public class SearchEngine {
     public static class Request {
+        private  Request() {}
         private String query;
         public String getQuery() { return  query; }
         public void setQuery(String value) { query = value; }
@@ -24,8 +25,9 @@ public class SearchEngine {
         public String toEncodedQueryString() {
             StringBuilder sb = new StringBuilder();
             try {
-                sb.append("q=" + URLEncoder.encode(query, "UTF-8"));
-                sb.append("&wt=json&indent=true");
+                sb.append("q=" + URLEncoder.encode(query, "UTF-8"))
+                    .append("&wt=json");
+                    // .append("&indent=true");
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -33,15 +35,26 @@ public class SearchEngine {
         }
     }
 
+    public static class RequestBuilder {
+        private Request request = new Request();
+
+        public RequestBuilder setQuery(String value) { request.setQuery(value); return this; }
+        public Request build() { return request; }
+    }
+
     public static class Response {
-        Response(int status, String content) {
+        public Response() {}
+        public Response(int status, String content) {
             this.status = status;
             this.content = content;
         }
         private int status;
         private String content;
+
         public String getContent() { return content; }
         public void setContent(String value) { content = value; }
+        public int getStatus() { return status; }
+        public void setStatus(int value) { status = value; }
     }
 
     private static interface LoadBalance {

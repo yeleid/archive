@@ -1,12 +1,12 @@
-package com.yeleid.solutions;
+package com.yeleid.solutions.model;
 
 import org.apache.hadoop.hbase.util.Bytes;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Model {
-    public Model () {}
+public class Meta {
+    public Meta() {}
 
     private String filename;
     private String category;
@@ -32,24 +32,24 @@ public class Model {
         author = value;
     }
 
-    public static Model fromMap(Map<String, byte[]> map) {
-        Model model = new Model();
+    public static Meta fromMap(Map<String, byte[]> map) {
+        Meta meta = new Meta();
         byte[] bytes;
 
         bytes = map.get("f");
         if (bytes != null) {
-            model.setFilename(Bytes.toString(bytes));
+            meta.setFilename(Bytes.toString(bytes));
         }
         bytes = map.get("c");
         if (bytes != null) {
-            model.setCategory(Bytes.toString(bytes));
+            meta.setCategory(Bytes.toString(bytes));
         }
         bytes = map.get("a");
         if (bytes != null) {
-            model.setAuthor(Bytes.toString(bytes));
+            meta.setAuthor(Bytes.toString(bytes));
         }
 
-        return model;
+        return meta;
     }
 
     public Map<String, byte[]> toMap() {

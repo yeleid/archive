@@ -1,7 +1,19 @@
 # archive
-An archive app based on CDH
+An archive app based on CDH, providing upload and retrieval REST API for small files (< 10MB).
 
-#### 1. Prerequisites
+#### 1. Background
+Many customers have millions of small files, e.g. customer service audio recordings, research papers, etc. Previously, they have to buy a dedicated file archive system for those files to meet 2 most straightforward requirements:
+
+* storage
+* retrieval, based on metadata search and/or full-text search
+
+After deploying Hadoop, specifically **Cloudera distribution of Hadoop (EDH)**, customers want to ingest different data sources into one central data hub (a.k.a [Data lake](https://en.wikipedia.org/wiki/Data_lake)) for further analysis. 
+One solution would be storing small files directly in HDFS, but that's not efficient, and HDFS does not support miscellaneous indexing feature neither. 
+Further more, we also want to decouple clients (web UI or mobile app) from Hadoop, so the design would look like below:
+
+![archive_design](docs/img/archive-design.png)
+
+#### 2. Prerequisites
 
 **enable hbase replication feature**
 
@@ -23,9 +35,9 @@ HBase Service Advanced Configuration Snippet (Safety Valve)
 
 ![morphline](docs/img/morphline.png)
 
-For more details, go see bin/solr/morphline.conf.
+For more details, go see [morphline configuration file](https://github.com/yeleid/archive/blob/master/bin/solr/morphline.conf)
 
-#### 2. Archive System Setup
+#### 3. Archive System Setup
 
 **clone code repository**
 
@@ -49,7 +61,7 @@ This step includes hbase table creation, solr collection creation and lily index
     16/01/14 04:20:10 INFO solutions.ArchiveServer: Start Archive Server.
     
     
-#### 3. Demonstration
+#### 4. Demonstration
 
 **check the service is running**
 
@@ -81,7 +93,7 @@ This step includes hbase table creation, solr collection creation and lily index
     
     by default, the downloaded file will be put into directory '/tmp/staging/'.
     
-#### 4. References
+#### 5. References
 
 *solrctrl reference*
 
