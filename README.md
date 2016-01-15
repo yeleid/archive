@@ -82,7 +82,14 @@ This step includes hbase table creation, solr collection creation and lily index
 **update metadata for an archived file**
 
     bin/update.sh
+  
+**serach metadata**
+
+    bin/search.sh
     
+    in the current implementation, archive service works like a Solr proxy:
+    {"content":"{\"responseHeader\":{\"status\":0,\"QTime\":1,\"params\":{\"q\":\"a:alex\",\"wt\":\"json\"}},\"response\":{\"numFound\":1,\"start\":0,\"docs\":[{\"id\":\"123\",\"f\":\"test.txt\",\"a\":\"alex\",\"_version_\":1523391910243205120}]}}\n","status":200}
+
 **query metadata given file id**
 
     bin/retrieve.sh
